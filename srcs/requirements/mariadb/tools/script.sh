@@ -4,6 +4,8 @@ if [ ! -f "/etc/mysql/init.sql" ]; then
 	echo "CREATE DATABASE IF NOT EXISTS $DB_NAME;" > /etc/mysql/init.sql
 	echo "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';" >> /etc/mysql/init.sql
 	echo "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION;" >> /etc/mysql/init.sql
+	echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOTPASSWORD';"  >> /etc/mysql/init.sql
+	echo "DELETE FROM mysql.user WHERE User='';" >> /etc/mysql/init.sql
 	echo "FLUSH PRIVILEGES;" >> /etc/mysql/init.sql
 	if [ ! -d "/var/lib/mysql/mysql" ]; then
 		echo "Installing database..."

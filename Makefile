@@ -1,26 +1,30 @@
-
+PROJECT = inception
 DOCKER_FILE=./srcs/docker-compose.yml
 
 up:
-	@docker compose -f $(DOCKER_FILE) up -d
-
-re:
-	@docker compose -f $(DOCKER_FILE) up --build --remove-orphans --force-recreate -d
+	@docker compose -p $(PROJECT) -f $(DOCKER_FILE) up -d
 
 down:
-	@docker compose -f $(DOCKER_FILE) down
+	@docker compose -p $(PROJECT) -f $(DOCKER_FILE) down
 
 stop:
-	@docker compose -f $(DOCKER_FILE) stop
+	@docker compose -p $(PROJECT) -f $(DOCKER_FILE) stop
 
 start:
-	@docker compose -f $(DOCKER_FILE) start
+	@docker compose -p $(PROJECT) -f $(DOCKER_FILE) start
 
 list:
-	@docker compose -f $(DOCKER_FILE) ps
+	@docker compose -p $(PROJECT) -f $(DOCKER_FILE) ps
 
 rm:
-	@docker compose -f $(DOCKER_FILE) rm
+	@docker compose -p $(PROJECT) -f $(DOCKER_FILE) rm -s -f
 
-fclean: down
-	rm -rf srcs/data
+new:
+	@docker compose -p $(PROJECT) -f $(DOCKER_FILE) build --no-cache
+	@docker compose -p $(PROJECT) -f $(DOCKER_FILE) up -d --force-recreate
+
+re: fclean up
+
+fclean:
+	@docker compose -p $(PROJECT) -f $(DOCKER_FILE) down --rmi all --volumes --remove-orphans
+	@rm -rf srcs/data

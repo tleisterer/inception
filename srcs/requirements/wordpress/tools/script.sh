@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+RUN chown -R www-data:www-data /var/www/html
 cd /var/www/html
 if [ ! -f wp-cli.phar ]; then
 	echo "Download wp cli tool..."
@@ -8,6 +9,12 @@ if [ ! -f wp-cli.phar ]; then
 	./wp-cli.phar core download --allow-root
 	./wp-cli.phar config create --dbname="$DB_NAME" --dbuser="$DB_USER" --dbpass="$DB_PASSWORD" --dbhost=mariadb --allow-root
 	./wp-cli.phar core install --url="$WP_URL" --title="$WP_TITLE" --admin_user="$WP_ADMIN" --admin_password="$WP_ADMIN_PASSWORD" --admin_email="$WP_ADMIN_EMAIL" --allow-root
+	echo "Installing redis cache..."
+	./wp-cli.phar plugin install redis-cache --activate --allow-root
+	./wp-cli.phar config set WP_REDIS_HOST redis --allow-root
+	./wp-cli.phar config set WP_REDIS_PORT 6379 --raw --allow-root
+	./wp-cli.phar config set WP_CACHE_KEY_SALT "$WP_URL" --allow-root
+	./wp-cli.phar redis enable --allow-root
 	echo "done"
 else
 	echo "WordPress is already set up"
