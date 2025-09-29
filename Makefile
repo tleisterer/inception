@@ -21,3 +21,6 @@ list:
 
 rm:
 	@docker compose -f $(DOCKER_FILE) rm
+
+fclean: down
+	rm -rf srcs/data

@@ -13,5 +13,41 @@ services:
     volumes:
       - ./data/database:/var/lib/mysql:rw
 
+  nginx:
+    container_name: nginx
+    env_file: .env
+    build: ./requirements/nginx
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep nginx || exit 1"]
+      interval: 5s
+      retries: 10
+    networks:
+      - inception
+    volumes:
+      - ./data/web:/var/www/html:rw
+    ports:
+      - "443:443"
+    depends_on:
+      wordpress:
+        condition: service_healthy
+
+  wordpress:
+    container_name: wordpress
+    env_file: .env
+    build: ./requirements/wordpress
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pgrep php-fpm || exit 1" ]
+      interval: 5s
+      retries: 10
+    networks:
+      - inception
+    volumes:
+      - ./data/web:/var/www/html:rw
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
 networks:
   inception:
