@@ -1,0 +1,17 @@
+services:
+  mariadb:
+    container_name: mariadb
+    env_file: .env
+    build: ./requirements/mariadb
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -u root > /dev/null 2>&1" ]
+      interval: 5s
+      retries: 10
+    networks: 
+      - inception
+    volumes:
+      - ./data/database:/var/lib/mysql:rw
+
+networks:
+  inception:
