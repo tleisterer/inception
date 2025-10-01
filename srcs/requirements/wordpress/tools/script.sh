@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-RUN chown -R www-data:www-data /var/www/html
 cd /var/www/html
 if [ ! -f wp-cli.phar ]; then
 	echo "Download wp cli tool..."
@@ -15,9 +14,11 @@ if [ ! -f wp-cli.phar ]; then
 	./wp-cli.phar config set WP_REDIS_PORT 6379 --raw --allow-root
 	./wp-cli.phar config set WP_CACHE_KEY_SALT "$WP_URL" --allow-root
 	./wp-cli.phar redis enable --allow-root
+	chown -R www-data:www-data /var/www/html
 	echo "done"
 else
 	echo "WordPress is already set up"
 fi
+
 
 exec php-fpm8.2 -F
