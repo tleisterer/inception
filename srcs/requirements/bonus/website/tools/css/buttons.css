@@ -1,0 +1,76 @@
+input[type="submit"], button {
+	padding: 10px;
+	cursor: pointer;
+	font-size: medium;
+	border: none;
+	border-bottom: 2px solid var(--color-border);
+	border-radius: 5px;
+	color: var(--color-button-text);
+	background-color: var(--color-surface);
+}
+
+input[type="submit"] {
+	font-family: Arial, sans-serif;
+}
+
+input[type="submit"]:hover, button:hover {
+	background-color: var(--color-hover-bg);
+	color: var(--color-hover-text);
+}
+
+.tab-button-list {
+	display: flex;
+	gap: 5px;
+	flex-shrink: 0;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.tab-button-list:hover {
+	scrollbar-width: thin;
+}
+
+.tab-button {
+	min-width: 120px;
+	padding: 10px 20px;
+	background-color: var(--color-tab-bg);
+	color: var(--color-text);
+	border-bottom: none;
+}
+
+.tab-button.active {
+	border-bottom: 2px solid var(--color-border);
+	background-color: var(--color-surface);
+	color: var(--color-button-text);
+}
+
+.tab-button.active:hover {
+	background-color: var(--color-hover-bg);
+	color: var(--color-hover-text);
+}
+
+.op-button-list {
+	width: 100%;
+	gap: 3px;
+	display: flex;
+}
+
+.op-button {
+	flex: 1;
+	margin: 0px;
+}
+
+#processInput {
+	width: 100%;
+	margin-bottom: 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+	input[type="submit"], button {
+		border: 1px solid var(--color-stack-border);
+		border-bottom: 2px solid var(--color-border);
+	}
+	.tab-button {
+		border-bottom: 1px solid var(--color-stack-border);
+	}
+}

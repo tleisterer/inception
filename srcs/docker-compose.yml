@@ -98,5 +98,21 @@ services:
       mariadb:
         condition: service_healthy
 
+  website:
+    container_name: website
+    env_file: .env
+    build: ./requirements/bonus/website
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep nginx || exit 1"]
+      interval: 5s
+      retries: 10
+    networks:
+      - inception
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./requirements/bonus/website/tools:/var/www/html"
+
 networks:
   inception:
