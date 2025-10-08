@@ -54,7 +54,6 @@ processInput.addEventListener("click", async function () {
 
   InputError("", false);
   for (const op of operations) {
-    console.log(stackA, stackB);
     updateElements();
     if (actions[op]()) await sleep(500);
   }
@@ -68,11 +67,12 @@ processInput.addEventListener("click", async function () {
   const aSorted = Array.from(aChilds);
   aSorted.sort();
 
-  console.log(aChilds, bChilds);
   const isSame = isEqual(aChilds, aSorted);
   if (bChilds.length !== 0 || !isSame) {
+    createBanner(false);
     console.log("not sorted");
   } else {
+    createBanner(true);
     console.log("sorted");
   }
 });

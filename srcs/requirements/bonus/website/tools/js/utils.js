@@ -37,7 +37,13 @@ function setColor(element, percent) {
 }
 
 function isEqual(arrayA, arrayB) {
-  return arrayA.every((element, index) => {element === arrayB[index]})
+  if (arrayA.length != arrayB.length) {
+    return false;
+  }
+
+  return arrayA.every((element, index) => {
+    return element == arrayB[index];
+  });
 }
 
 function sleep(ms) {

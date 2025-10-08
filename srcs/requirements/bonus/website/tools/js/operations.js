@@ -33,5 +33,7 @@ function swap(stack) {
 }
 
 function both(operation) {
-  return operation(stackA) || operation(stackB);
+  const aReturn = operation(stackA);
+  const bRetun = operation(stackB);
+  return aReturn || bRetun;
 }

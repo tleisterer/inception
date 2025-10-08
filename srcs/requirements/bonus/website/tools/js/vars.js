@@ -5,6 +5,7 @@ const operationButtons = document.getElementsByClassName("op-button");
 const processInput = document.getElementById("processInput");
 const textarea = document.getElementById("numberInput");
 const errorPlane = document.getElementById("errorPlane");
+const bannerField = document.getElementById("bannerfield");
 
 const actions = {
   pa: () => push(stackA, stackB),
@@ -20,12 +21,11 @@ const actions = {
   ss: () => both(swap),
 };
 
-for (const button of operationButtons) {
-  button.addEventListener("click", function () {
-    console.log(button.id);
-    actions[button.id]?.();
+document.querySelectorAll(".op-button").forEach((container) => {
+  container.addEventListener("click", () => {
+    actions[container.id]?.();
   });
-}
+});
 
 document.querySelectorAll(".number-input").forEach((container) => {
   const input = container.querySelector("input");
@@ -53,6 +53,5 @@ document.querySelectorAll(".number-input").forEach((container) => {
   btnUp.addEventListener("mouseleave", stopStep);
   btnDwn.addEventListener("mouseleave", stopStep);
 });
-
 
 textarea.addEventListener("input", processNumbers);
