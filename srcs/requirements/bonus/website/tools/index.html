@@ -51,26 +51,39 @@
 			</div>
 
 			<div id="operations" class="tab-content" style="display: none;">
+				<div id="controls">
+					<div class="flex-list">
+						<input type="range" name="speed" value="2" id="speed" max="100" min="0">
+						<label for="speed">2 op/sec</label>
+					</div>
+					<div class="flex-list">
+						<button id="step-back"></button>
+						<button id="play-stop"></button>
+						<button id="step-forwarts"></button>
+					</div>
+				</div>
+
 				<button id="processInput">process input</button>
 				<textarea id="operationInput" placeholder="input your opertions here" rows="10"></textarea>
-				<section class="op-button-list">
+
+				<section class="flex-list">
 					<button class="op-button" id="pa">pa</button>
 					<button class="op-button" id="pb">pb</button>
 				</section> <br>
 
-				<section class="op-button-list">
+				<section class="flex-list">
 					<button class="op-button" id="ra">ra</button>
 					<button class="op-button" id="rb">rb</button>
 					<button class="op-button" id="rr">rr</button>
 				</section> <br>
 
-				<section class="op-button-list">
+				<section class="flex-list">
 					<button class="op-button" id="rra">rra</button>
 					<button class="op-button" id="rrb">rrb</button>
 					<button class="op-button" id="rrr">rrr</button>
 				</section> <br>
 
-				<section class="op-button-list">
+				<section class="flex-list">
 					<button class="op-button" id="sa">sa</button>
 					<button class="op-button" id="sb">sb</button>
 					<button class="op-button" id="ss">ss</button>

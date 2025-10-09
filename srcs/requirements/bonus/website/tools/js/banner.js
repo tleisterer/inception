@@ -43,7 +43,7 @@ function createBanner(sorted) {
   document.querySelector("main").appendChild(banner);
 
   setTimeout(() => {
-    banner.style.top = "0";
+    banner.style.top = "5px";
   }, 10);
   setTimeout(() => banner.remove(), 5000);
 }

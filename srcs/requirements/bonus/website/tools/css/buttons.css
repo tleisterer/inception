@@ -3,7 +3,7 @@ input[type="submit"], button {
 	cursor: pointer;
 	font-size: medium;
 	border: none;
-	border-bottom: 2px solid var(--color-border);
+	border-bottom: 2px solid var(--color-border-bottom);
 	border-radius: 5px;
 	color: var(--color-button-text);
 	background-color: var(--color-surface);
@@ -24,6 +24,7 @@ input[type="submit"]:hover, button:hover {
 	flex-shrink: 0;
 	overflow-x: auto;
 	scrollbar-width: none;
+	padding: 2px;
 }
 
 .tab-button-list:hover {
@@ -39,7 +40,7 @@ input[type="submit"]:hover, button:hover {
 }
 
 .tab-button.active {
-	border-bottom: 2px solid var(--color-border);
+	border-bottom: 2px solid var(--color-border-bottom);
 	background-color: var(--color-surface);
 	color: var(--color-button-text);
 }
@@ -47,12 +48,6 @@ input[type="submit"]:hover, button:hover {
 .tab-button.active:hover {
 	background-color: var(--color-hover-bg);
 	color: var(--color-hover-text);
-}
-
-.op-button-list {
-	width: 100%;
-	gap: 3px;
-	display: flex;
 }
 
 .op-button {
@@ -67,10 +62,10 @@ input[type="submit"]:hover, button:hover {
 
 @media (prefers-color-scheme: dark) {
 	input[type="submit"], button {
-		border: 1px solid var(--color-stack-border);
-		border-bottom: 2px solid var(--color-border);
+		border: 1px solid var(--color-border);
+		border-bottom: 2px solid var(--color-border-bottom);
 	}
 	.tab-button {
-		border-bottom: 1px solid var(--color-stack-border);
+		border-bottom: 1px solid var(--color-border);
 	}
 }

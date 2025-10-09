@@ -32,51 +32,6 @@ function updateElements() {
   });
 }
 
-processInput.addEventListener("click", async function () {
-  const input = document
-    .getElementById("operationInput")
-    .value.trim()
-    .replace(/(?:\s|\n|\t|\r|\v)+/g, " ");
-
-  if (!input || numberError) return;
-
-  const operations = input.split(" ");
-  var num = 0;
-
-  for (const op of operations) {
-    ++num;
-    if (!actions[op]) {
-      InputError("invalid operation in line: " + num + ": " + op, true);
-      operationError = errorPlane.textContent;
-      return;
-    }
-  }
-
-  InputError("", false);
-  for (const op of operations) {
-    updateElements();
-    if (actions[op]()) await sleep(500);
-  }
-  const aChilds = Array.from(stackA.querySelectorAll(".bar"), (element) => {
-    return parseInt(element.innerHTML);
-  });
-  const bChilds = Array.from(stackB.querySelectorAll(".bar"), (element) => {
-    return parseInt(element.innerHTML);
-  });
-
-  const aSorted = Array.from(aChilds);
-  aSorted.sort();
-
-  const isSame = isEqual(aChilds, aSorted);
-  if (bChilds.length !== 0 || !isSame) {
-    createBanner(false);
-    console.log("not sorted");
-  } else {
-    createBanner(true);
-    console.log("sorted");
-  }
-});
-
 async function processNumbers(event) {
   const input = event.target.value.trim().replace(/(?:\s|\n|\t|\r|\v)+/g, " ");
 
