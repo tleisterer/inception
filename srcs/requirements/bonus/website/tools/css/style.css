@@ -1,10 +1,14 @@
+* {
+	font-family: Arial, sans-serif;
+	font-size: medium;
+}
+
 html {
 	height: 100vh;
 	margin: 0;
 }
 
 body {
-	font-family: Arial, sans-serif;
 	margin: 0;
 	height: 100%;
 	width: 100%;
@@ -23,6 +27,7 @@ h1 {
 	background-color: var(--color-accent);
 	color: var(--color-surface);
 	text-align: center;
+	font-size: 2em;
 	margin: 0;
 	padding: 0.67em 0;
 }
@@ -40,7 +45,7 @@ h1 {
 }
 
 .bar {
-	font-size: 20px;
+	font-size: 100%;
 	text-shadow: 1px 1px 2px var(--color-surface);
 	color: var(--color-text);
 	max-height: 20px;
@@ -63,6 +68,8 @@ h1 {
 	width: 100%;
 	gap: 3px;
 	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /* banner */
@@ -109,10 +116,4 @@ h1 {
 		height: 100vh;
 		top: 0;
 	}
-}
-
-@container (max-height: 20px) {
-  .bar {
-    font-size: 0;
-  }
 }

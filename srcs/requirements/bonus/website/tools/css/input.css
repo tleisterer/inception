@@ -7,7 +7,6 @@ textarea, input {
 	color: var(--color-text);
 	border: 1px solid var(--color-input-border);
 	border-radius: 2px;
-	font-size: 1em;
 }
 
 input[type="number"] {
@@ -93,7 +92,7 @@ input[type="number"] {
 	padding: 0;
 }
 
-.number-input button {
+.number-input button.up {
 	border-radius: 4px 4px 0 0;
 }
 
@@ -101,18 +100,16 @@ input[type="number"] {
 	border-radius: 0 0 4px 4px;
 }
 
-.number-input button:hover {
-	background-color: var(--spin-hover-bg);
+@media(hover: hover) {
+	.number-input button:hover {
+		background-color: var(--spin-hover-bg);
+	}
 }
 
 .number-input button svg {
 	width: 0.8em;
 	height: 0.8em;
 	fill: var(--spin-text);
-}
-
-.number-input button:hover svg {
-	fill: var(--spin-hover-text);
 }
 
 /* range input */

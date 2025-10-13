@@ -1,10 +1,11 @@
+const html = document.documentElement;
+
 const stackA = document.getElementById("right-stack");
 const stackB = document.getElementById("left-stack");
-
-const processInputBtn = document.getElementById("processInput");
-const textarea = document.getElementById("numberInput");
+var bars = document.getElementsByClassName("bar");
 const errorPlane = document.getElementById("errorPlane");
-const speedSlider = document.getElementById("speed");
+
+const textarea = document.getElementById("numberInput");
 
 const actions = {
   pa: () => push(stackA, stackB),
@@ -20,15 +21,22 @@ const actions = {
   ss: () => both(swap),
 };
 
-document.querySelectorAll(".op-button").forEach((container) => {
-  container.addEventListener("click", () => actions[container.id]?.());
+const oppositeActions = {
+  pa: () => push(stackB, stackA),
+  pb: () => push(stackA, stackB),
+  ra: () => reverseRotate(stackA),
+  rb: () => reverseRotate(stackB),
+  rr: () => both(reverseRotate),
+  rra: () => rotate(stackA),
+  rrb: () => rotate(stackB),
+  rrr: () => both(rotate),
+  sa: () => swap(stackA),
+  sb: () => swap(stackB),
+  ss: () => both(swap),
+};
 
-  container.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      actions[container.id]?.();
-    }
-  });
+document.querySelectorAll(".op-button").forEach((container) => {
+  mouseKeyEventRepeat(container, actions[container.id]);
 });
 
 document.querySelectorAll(".number-input").forEach((container) => {
@@ -36,27 +44,9 @@ document.querySelectorAll(".number-input").forEach((container) => {
   const btnUp = container.querySelector(".up");
   const btnDwn = container.querySelector(".down");
 
-  let interval;
-
-  const startStep = (stepFunc) => {
-    stepFunc();
-    interval = setTimeout(() => (interval = setInterval(stepFunc, 80)), 200);
-  };
-
-  const stopStep = () => {
-    clearInterval(interval);
-  };
-
   [btnUp, btnDwn].forEach((element, index) => {
-    element.addEventListener("mouseup", stopStep);
-    element.addEventListener("mouseleave", stopStep);
-
     let func = index == 1 ? () => input.stepDown() : () => input.stepUp();
-
-    element.addEventListener("mousedown", () => startStep(func));
-    element.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") func();
-    });
+    mouseKeyEventRepeat(element, func, false);
   });
 });
 
@@ -69,18 +59,33 @@ document.querySelectorAll('input[type="range"]').forEach((container) => {
   };
 
   setProgress(container);
-
   container.addEventListener("input", (e) => {
     setProgress(e.target);
   });
 });
 
-processInputBtn.addEventListener("click", processInput);
-processInputBtn.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" || e.key === " ") {
-    e.preventDefault();
-    processInput;
+window.addEventListener("resize", () => {
+  for (bar of bars) {
+    setSize(bar);
   }
 });
 
 textarea.addEventListener("input", processNumbers);
+
+const speedSlider = document.getElementById("speed");
+const speedLabel = document.querySelector('label[for="speed"]');
+speedSlider.addEventListener("change", () => {
+  speedLabel.innerHTML = speedSlider.value + " op/sec";
+});
+
+const stepBack = document.getElementById("step-back");
+const stepForward = document.getElementById("step-forward");
+const playPause = document.getElementById("play-pause");
+const playBtn = document.getElementById("play");
+const pauseBtn = document.getElementById("pause");
+mouseKeyEvent(playPause, togglePlay);
+
+[stepBack, stepForward].forEach((element, index) => {
+  let func = () => startStep(index == 1 ? () => step(+1) : () => step(-1));
+  mouseKeyEventRepeat(element, func);
+});

@@ -5,3 +5,19 @@
 label[for="speed"] {
 	white-space: nowrap;
 }
+
+.step-control button svg {
+	width: 2.3em;
+	height: 2em;
+}
+
+.step-control button {
+	padding: 0.5em 1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#controls .flex-list {
+	gap: 10px;
+}

@@ -8,15 +8,16 @@ function InputError(msg, show) {
   errorPlane.style.visibility = "visible";
 }
 
-function setHeight(element) {
+function setSize(element) {
   const containerHeight = stackA.clientHeight;
-  const gap = 1;
+  const gap = parseInt(window.getComputedStyle(stackA).gap);
   let h = (containerHeight - gap * (numbers.length - 1)) / numbers.length;
-  if (h < 10) h = 10;
   element.style.height = h + "px";
   if (h < 20) {
     element.style.fontSize = "0";
-  } else element.style.removeProperty("font-size");
+  } else {
+    element.style.removeProperty("font-size");
+  }
 }
 
 // color lerb between yellow and red
@@ -48,4 +49,48 @@ function isEqual(arrayA, arrayB) {
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function setBar(div, text, sizePercent) {
+  div.className = "bar";
+  div.textContent = text;
+  div.style.width = sizePercent + "%";
+  setSize(div);
+  setColor(div, sizePercent / 100);
+}
+
+let interval;
+
+function startStep(stepFunc) {
+  stopStep();
+  stepFunc();
+  interval = setTimeout(() => (interval = setInterval(stepFunc, 80)), 200);
+}
+
+function stopStep() {
+  clearInterval(interval);
+}
+
+function mouseKeyEvent(
+  element,
+  func,
+  mouseEvent = "click",
+  preventDefault = true
+) {
+  element.addEventListener(mouseEvent, func);
+  element.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      if (preventDefault) e.preventDefault();
+      func();
+    }
+  });
+}
+
+function mouseKeyEventRepeat(element, func, preventDefault = true) {
+  element.addEventListener("mouseup", stopStep);
+  element.addEventListener("mouseleave", stopStep);
+  element.addEventListener("keyup", (e) => {
+    if (e.key === "Enter" || e.key === " ") stopStep();
+  });
+  mouseKeyEvent(element, func, "mousedown", preventDefault);
 }

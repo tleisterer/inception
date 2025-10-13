@@ -13,20 +13,11 @@ function updateElements() {
 
   numbers.forEach((num, index) => {
     if (index < stackA.children.length) {
-      stackA.children[index].textContent = num;
-      stackA.children[index].style.width =
-        (normalized[index] / max) * 100 + "%";
-
-      setHeight(stackA.children[index]);
-      setColor(stackA.children[index], normalized[index] / max);
+      setBar(stackA.children[index], num, (normalized[index] / max) * 100);
     } else {
       const div = document.createElement("div");
-      div.className = "bar";
-      div.textContent = num;
-      div.style.width = (normalized[index] / max) * 100 + "%";
-      setHeight(div);
-      setColor(div, normalized[index] / max);
-
+      setBar(div, num, (normalized[index] / max) * 100);
+      div.style.height = (numbers.length)
       stackA.appendChild(div);
     }
   });
