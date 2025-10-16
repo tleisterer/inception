@@ -17,14 +17,14 @@ function updateElements() {
     } else {
       const div = document.createElement("div");
       setBar(div, num, (normalized[index] / max) * 100);
-      div.style.height = (numbers.length)
+      div.style.height = numbers.length;
       stackA.appendChild(div);
     }
   });
 }
 
-async function processNumbers(event) {
-  const input = event.target.value.trim().replace(/(?:\s|\n|\t|\r|\v)+/g, " ");
+async function processNumbers() {
+  const input = textarea.value.trim().replace(/(?:\s|\n|\t|\r|\v)+/g, " ");
 
   if (!input) {
     numbers = [];

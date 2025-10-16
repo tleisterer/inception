@@ -109,7 +109,6 @@ input[type="number"] {
 .number-input button svg {
 	width: 0.8em;
 	height: 0.8em;
-	fill: var(--spin-text);
 }
 
 /* range input */

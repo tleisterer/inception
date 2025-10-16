@@ -9,10 +9,15 @@ async function runOperation(delta) {
   if (delta == 0) return;
   while (busy) await sleep(100);
   busy = true;
-  if (i + delta >= operation.length || i + delta < 0) return;
+  // console.log(`too big ${i - (delta < 0) >= operation.length}`, `too low ${i - (delta < 0) < 0}`);
   try {
+    if (i - (delta < 0) >= operation.length || i - (delta < 0) < 0)
+      return false;
+    console.log(delta);
     var op = operation[delta > 0 ? i++ : --i];
+    console.log(op);
     var func = delta > 0 ? actions[op] : oppositeActions[op];
+    console.log(func);
     return await func();
   } finally {
     busy = false;
@@ -28,17 +33,22 @@ function checkSorted() {
   });
 
   const aSorted = Array.from(aChilds);
-  aSorted.sort();
-
+  aSorted.sort((a, b) => {
+    return a - b;
+  });
+  console.log(typeof aSorted[0]);
   const isSame = isEqual(aChilds, aSorted);
-  if (i == operation.length) {
-    if (bChilds.length !== 0 || !isSame) {
-      createBanner(false);
-      console.log("not sorted");
-    } else {
-      createBanner(true);
-      console.log("sorted");
+  if (bChilds.length !== 0 || !isSame) {
+    createBanner(false);
+    let output = "not sorted: ";
+    output += !isSame ? "Stack A is not sorted" : "";
+    if (bChilds.length !== 0) {
+      output += !isSame ? " and " : "" + "Stack B is not empty";
     }
+    console.log(output);
+  } else {
+    createBanner(true);
+    console.log("sorted");
   }
 }
 
@@ -47,8 +57,7 @@ async function processInput() {
   if (numberError) return;
   if (!checkInput()) return;
   if (running) return;
-  running = true;
-
+  setPlayBtn(true);
   while (i < operation.length) {
     while (speedSlider.value == 0 && !pause) await sleep(100);
     if (pause) break;
@@ -60,7 +69,7 @@ async function processInput() {
     pause = true;
     checkSorted();
   }
-  running = false;
+  setPlayBtn(false);
 }
 
 function checkInput() {
@@ -98,7 +107,19 @@ async function step(amount) {
   var count = 0;
   while (i + sign >= 0 && i + sign < operation.length && count != amount) {
     count += sign;
+    console.log(`count: ${count}`, `delta: ${sign}`, `busy: ${busy}`);
     await runOperation(sign);
+  }
+}
+
+function setPlayBtn(isRunning) {
+  running = isRunning;
+  if (isRunning) {
+    playBtn.style.display = "none";
+    pauseBtn.style.display = "block";
+  } else {
+    playBtn.style.display = "block";
+    pauseBtn.style.display = "none";
   }
 }
 
@@ -106,16 +127,11 @@ async function togglePlay() {
   pause = !pause;
   console.log(pause, running);
   if (!pause && !running) {
-    playBtn.style.display = "none";
-    pauseBtn.style.display = "block";
     if (i == operation.length || i == 0) {
       updateElements();
       submited = false;
       i = 0;
     }
     await processInput();
-    return;
   }
-  playBtn.style.display = "block";
-  pauseBtn.style.display = "none";
 }

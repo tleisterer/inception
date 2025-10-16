@@ -39,9 +39,10 @@ function setColor(element, percent) {
 
 function isEqual(arrayA, arrayB) {
   if (arrayA.length != arrayB.length) {
+    console.log("length");
     return false;
   }
-
+  console.log(arrayA, arrayB);
   return arrayA.every((element, index) => {
     return element == arrayB[index];
   });
@@ -92,5 +93,5 @@ function mouseKeyEventRepeat(element, func, preventDefault = true) {
   element.addEventListener("keyup", (e) => {
     if (e.key === "Enter" || e.key === " ") stopStep();
   });
-  mouseKeyEvent(element, func, "mousedown", preventDefault);
+  mouseKeyEvent(element, () => startStep(func), "mousedown", preventDefault);
 }

@@ -74,7 +74,7 @@ textarea.addEventListener("input", processNumbers);
 
 const speedSlider = document.getElementById("speed");
 const speedLabel = document.querySelector('label[for="speed"]');
-speedSlider.addEventListener("change", () => {
+speedSlider.addEventListener("input", () => {
   speedLabel.innerHTML = speedSlider.value + " op/sec";
 });
 
@@ -88,4 +88,8 @@ mouseKeyEvent(playPause, togglePlay);
 [stepBack, stepForward].forEach((element, index) => {
   let func = () => startStep(index == 1 ? () => step(+1) : () => step(-1));
   mouseKeyEventRepeat(element, func);
+});
+
+window.addEventListener("load", () => {
+  processNumbers();
 });

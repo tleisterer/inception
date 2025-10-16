@@ -8,6 +8,10 @@ input[type="submit"], button {
 	background-color: var(--color-surface);
 }
 
+button svg {
+	fill: var(--spin-text);
+}
+
 @media(hover: hover) {
 	input[type="submit"]:hover, button:hover {
 		background-color: var(--color-hover-bg);
