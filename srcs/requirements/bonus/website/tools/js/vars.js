@@ -86,10 +86,31 @@ const pauseBtn = document.getElementById("pause");
 mouseKeyEvent(playPause, togglePlay);
 
 [stepBack, stepForward].forEach((element, index) => {
-  let func = () => startStep(index == 1 ? () => step(+1) : () => step(-1));
+  let func = () => (index == 1 ? () => step(+1) : () => step(-1));
   mouseKeyEventRepeat(element, func);
 });
 
 window.addEventListener("load", () => {
   processNumbers();
+});
+
+window.addEventListener("keydown", (e) => {
+  if (
+    ["INPUT", "TEXTAREA"].includes(e.target.tagName) ||
+    e.target.isContentEditable
+  )
+    return;
+  if (e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === " ")
+    e.preventDefault();
+
+  if (e.key === "ArrowLeft") startStep(() => step(-1));
+  else if (e.key === "ArrowRight") startStep(() => step(+1));
+  else if (e.key === " ") togglePlay();
+});
+
+window.addEventListener("keyup", (e) => {
+  if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+    e.preventDefault();
+    stopStep();
+  }
 });

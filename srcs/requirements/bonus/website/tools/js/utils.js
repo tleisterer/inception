@@ -80,7 +80,7 @@ function mouseKeyEvent(
 ) {
   element.addEventListener(mouseEvent, func);
   element.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
+    if (e.key === "Enter") {
       if (preventDefault) e.preventDefault();
       func();
     }
@@ -91,7 +91,7 @@ function mouseKeyEventRepeat(element, func, preventDefault = true) {
   element.addEventListener("mouseup", stopStep);
   element.addEventListener("mouseleave", stopStep);
   element.addEventListener("keyup", (e) => {
-    if (e.key === "Enter" || e.key === " ") stopStep();
+    if (e.key === "Enter") stopStep();
   });
   mouseKeyEvent(element, () => startStep(func), "mousedown", preventDefault);
 }
