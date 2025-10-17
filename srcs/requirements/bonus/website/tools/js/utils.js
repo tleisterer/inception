@@ -39,10 +39,8 @@ function setColor(element, percent) {
 
 function isEqual(arrayA, arrayB) {
   if (arrayA.length != arrayB.length) {
-    console.log("length");
     return false;
   }
-  console.log(arrayA, arrayB);
   return arrayA.every((element, index) => {
     return element == arrayB[index];
   });

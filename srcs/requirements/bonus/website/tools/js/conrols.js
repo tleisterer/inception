@@ -9,15 +9,11 @@ async function runOperation(delta) {
   if (delta == 0) return;
   while (busy) await sleep(100);
   busy = true;
-  // console.log(`too big ${i - (delta < 0) >= operation.length}`, `too low ${i - (delta < 0) < 0}`);
   try {
     if (i - (delta < 0) >= operation.length || i - (delta < 0) < 0)
       return false;
-    console.log(delta);
     var op = operation[delta > 0 ? i++ : --i];
-    console.log(op);
     var func = delta > 0 ? actions[op] : oppositeActions[op];
-    console.log(func);
     return await func();
   } finally {
     busy = false;
@@ -36,7 +32,6 @@ function checkSorted() {
   aSorted.sort((a, b) => {
     return a - b;
   });
-  console.log(typeof aSorted[0]);
   const isSame = isEqual(aChilds, aSorted);
   if (bChilds.length !== 0 || !isSame) {
     createBanner(false);
@@ -53,7 +48,6 @@ function checkSorted() {
 }
 
 async function processInput() {
-  console.log("started processing");
   if (numberError) return;
   if (!checkInput()) return;
   if (running) return;
@@ -103,11 +97,9 @@ async function step(amount) {
   if (amount == 0) return;
 
   const sign = Math.sign(amount);
-  console.log(sign);
   var count = 0;
   while (i + sign >= 0 && i + sign < operation.length && count != amount) {
     count += sign;
-    console.log(`count: ${count}`, `delta: ${sign}`, `busy: ${busy}`);
     await runOperation(sign);
   }
 }
@@ -125,7 +117,7 @@ function setPlayBtn(isRunning) {
 
 async function togglePlay() {
   pause = !pause;
-  console.log(pause, running);
+
   if (!pause && !running) {
     if (i == operation.length || i == 0) {
       updateElements();
