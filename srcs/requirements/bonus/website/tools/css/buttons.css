@@ -1,0 +1,84 @@
+input[type="submit"],
+button {
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  border-bottom: 2px solid var(--color-border-bottom);
+  border-radius: 5px;
+  color: var(--color-button-text);
+  background-color: var(--color-surface);
+}
+
+button svg {
+  fill: var(--spin-text);
+}
+
+@media (hover: hover) {
+  input[type="submit"]:hover,
+  button:hover {
+    background-color: var(--color-hover-bg);
+    color: var(--color-hover-text);
+  }
+
+  button:hover svg {
+    fill: var(--spin-hover-text);
+  }
+}
+
+.tab-button-list {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px;
+}
+
+@media (hover: hover) {
+  .tab-button-list:hover {
+    scrollbar-width: thin;
+  }
+}
+
+.tab-button {
+  min-width: 122px;
+  padding: 10px 20px;
+  background-color: var(--color-tab-bg);
+  color: var(--color-text);
+  border-bottom: none;
+}
+
+.tab-button.active {
+  border-bottom: 2px solid var(--color-border-bottom);
+  background-color: var(--color-surface);
+  color: var(--color-button-text);
+}
+
+@media (hover: hover) {
+  .tab-button.active:hover {
+    background-color: var(--color-hover-bg);
+    color: var(--color-hover-text);
+  }
+}
+
+.op-button {
+  flex: 1 1 auto;
+  margin: 0px;
+}
+
+#processInput {
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+  input[type="submit"],
+  button {
+    border: 1px solid var(--color-border);
+    border-bottom: 2px solid var(--color-border-bottom);
+  }
+
+  .tab-button {
+    border-bottom: 1px solid var(--color-border);
+  }
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<title>Push Swap Visualizer</title>
+	<link rel="stylesheet" href="css/color.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/input.css">
+	<link rel="stylesheet" href="css/buttons.css">
+	<link rel="stylesheet" href="css/sides.css">
+	<link rel="stylesheet" href="css/controls.css">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<script src="js/buttonEvents.js"></script>
+</head>
+<body>
+	<header>
+		<h1>Push Swap Visualizer</h1>
+	</header>
+	<main>
+		<div class="left-side">
+			<nav class="tab-button-list">
+				<button class="tab-button active" onclick="openTab(event, 'numbers')">Numbers</button>
+				<button class="tab-button" onclick="openTab(event, 'operations')">Operations</button>
+			</nav>
+
+			<div id="numbers" class="tab-content" style="display: block;">
+				<textarea id="numberInput" placeholder="input your numbers here" spellcheck="false" rows="10"></textarea>
+
+				<label for="numAmount">Generate random numbers</label>
+				<form onsubmit="return generateNums(event)">
+
+					<div class="number-input">
+						<input type="number" name="numAmount" id="numAmount" autocomplete="cc-number" min="0" max="2000" placeholder="amount of numbers">
+						<div class="spin-buttons">
+							<button class="up">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+									<path d="M12 8l6 6H6z"/>
+								</svg>
+							</button>
+							<button class="down">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+									<path d="M12 16l-6-6h12z"/>
+								</svg>
+							</button>
+						</div>
+					</div>
+
+					<input type="submit" value="generate">
+				</form>
+			</div>
+
+			<div id="operations" class="tab-content" style="display: none;">
+				<div id="controls">
+					<div class="flex-list speed-control">
+						<input type="range" name="speed" value="2" id="speed" max="100" min="0">
+						<label for="speed">2 op/sec</label>
+					</div>
+					<div class="flex-list step-control">
+						<button id="step-back">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="transform: scaleX(-1);">
+								<path d="M7.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
+								<path d="M15.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C8.713 12.69 8 12.345 8 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
+							</svg>
+						</button>
+						<button id="play-pause">
+							<svg id="play" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+								<path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+							</svg>
+							<svg id="pause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="display: none;">
+								<path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5"/>
+							</svg>
+						</button>
+						<button id="step-forward">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+								<path d="M7.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
+								<path d="M15.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C8.713 12.69 8 12.345 8 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
+							</svg>
+						</button>
+					</div>
+				</div>
+
+				<textarea id="operationInput" placeholder="input your opertions here" spellcheck="false" rows="10"></textarea>
+
+				<section class="flex-list">
+					<button class="op-button" id="pa">pa</button>
+					<button class="op-button" id="pb">pb</button>
+				</section> <br>
+
+				<section class="flex-list">
+					<button class="op-button" id="ra">ra</button>
+					<button class="op-button" id="rb">rb</button>
+					<button class="op-button" id="rr">rr</button>
+				</section> <br>
+
+				<section class="flex-list">
+					<button class="op-button" id="rra">rra</button>
+					<button class="op-button" id="rrb">rrb</button>
+					<button class="op-button" id="rrr">rrr</button>
+				</section> <br>
+
+				<section class="flex-list">
+					<button class="op-button" id="sa">sa</button>
+					<button class="op-button" id="sb">sb</button>
+					<button class="op-button" id="ss">ss</button>
+				</section> <br>
+			</div>
+		</div>
+
+		<div class="right-side">
+			<div class="stacks">
+				<div class="stack" id="right-stack"></div>
+				<div class="stack" id="left-stack"></div>
+				<div id="errorPlane"></div>
+			</div>
+		</div>
+	</main>
+	<script src="js/utils.js"></script>
+	<script src="js/actions.js"></script>
+	<script src="js/operations.js"></script>
+	<script src="js/banner.js"></script>
+	<script src="js/conrols.js"></script>
+	<script src="js/vars.js"></script>
+</body>
+</html>
