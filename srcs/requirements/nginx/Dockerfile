@@ -3,7 +3,7 @@ FROM debian:bookworm
 RUN apt update -y
 RUN apt upgrade -y
 
-RUN apt install nginx -y
+RUN apt install nginx procps -y
 
 COPY tools/default /etc/nginx/sites-available
 RUN mkdir -p /etc/nginx/ssl

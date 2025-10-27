@@ -87,16 +87,44 @@ services:
     build: ./requirements/bonus/adminer
     restart: always
     healthcheck:
-      test: [ "CMD-SHELL", "pgrep php-fpm || exit 1" ]
+      test: [ "CMD-SHELL", "pgrep php || exit 1" ]
       interval: 5s
       retries: 10
     networks:
       - inception
-    ports:
-      - "80:80"
     depends_on:
       mariadb:
         condition: service_healthy
+
+  uptime-kuma:
+    container_name: uptime-kuma
+    env_file: .env
+    build: ./requirements/bonus/uptime-kuma
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:3000/ || exit 1" ]
+      interval: 5s
+      retries: 10
+    networks:
+      - inception
+    volumes:
+      - ./data/uptime-kuma-data:/uptime-kuma/data
+    ports:
+      - "3000:3000"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      adminer:
+        condition: service_healthy
+      ftp:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      wordpress:
+        condition: service_healthy
+      nginx:
+        condition: service_healthy
+
 
 networks:
   inception:

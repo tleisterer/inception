@@ -5,7 +5,7 @@ up:
 	@docker compose -p $(PROJECT) -f $(DOCKER_FILE) up -d $(TARGET)
 
 down:
-	@if [ -z "$(TARGET)" ]; then \
+	-@if [ -z "$(TARGET)" ]; then \
 		docker compose -p $(PROJECT) -f $(DOCKER_FILE) down --rmi all --volumes --remove-orphans; \
 	else \
 		docker compose -p $(PROJECT) -f $(DOCKER_FILE) stop $(TARGET); \
