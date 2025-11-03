@@ -8,4 +8,4 @@ RUN mkdir -p /run/php
 RUN mkdir -p /var/www/adminer
 RUN wget "https://github.com/vrana/adminer/releases/download/v5.4.1/adminer-5.4.1.php" -O /var/www/adminer/index.php 
 
-ENTRYPOINT [ "php", "-S", "0.0.0.0:80", "-t", "/var/www/adminer" ]
+ENTRYPOINT [ "php", "-S", "0.0.0.0:8080", "-t", "/var/www/adminer" ]

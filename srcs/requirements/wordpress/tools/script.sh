@@ -6,7 +6,7 @@ if [ ! -f wp-cli.phar ]; then
 	chmod +x wp-cli.phar
 	echo "Setup WordPress..."
 	./wp-cli.phar core download --allow-root
-	./wp-cli.phar config create --dbname="$DB_NAME" --dbuser="$DB_USER" --dbpass="$DB_PASSWORD" --dbhost=mariadb --allow-root
+	./wp-cli.phar config create --dbname="$DB_NAME" --dbuser="$DB_USER" --dbpass="$DB_PASSWORD" --dbhost=mariadb:3306 --allow-root
 	./wp-cli.phar core install --url="$URL" --title="$WP_TITLE" --admin_user="$WP_ADMIN" --admin_password="$WP_ADMIN_PASSWORD" --admin_email="$WP_ADMIN_EMAIL" --allow-root
 	echo "Installing redis cache..."
 	./wp-cli.phar plugin install redis-cache --activate --allow-root

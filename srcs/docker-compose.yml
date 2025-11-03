@@ -109,24 +109,6 @@ services:
       - inception
     volumes:
       - ./data/uptime-kuma-data:/uptime-kuma/data
-    ports:
-      - "3000:3000"
-    depends_on:
-      mariadb:
-        condition: service_healthy
-      adminer:
-        condition: service_healthy
-      ftp:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      wordpress:
-        condition: service_healthy
-      nginx:
-        condition: service_healthy
-      website:
-        condition: service_healthy
-
 
   website:
     container_name: website
@@ -139,8 +121,6 @@ services:
       retries: 10
     networks:
       - inception
-    ports:
-      - "8080:8080"
     volumes:
       - "./requirements/bonus/website/tools:/var/www/html"
 
