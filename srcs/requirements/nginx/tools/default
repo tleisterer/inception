@@ -27,10 +27,10 @@ server {
 	listen 443 ssl default_server;
 	listen [::]:443 ssl default_server;
 
-	ssl_certificate     /etc/nginx/ssl/cert.pem;
-    ssl_certificate_key /etc/nginx/ssl/key.pem;
-    ssl_protocols       TLSv1.2 TLSv1.3;
-    ssl_ciphers         HIGH:!aNULL:!MD5;
+	ssl_certificate /etc/nginx/ssl/cert.pem;
+	ssl_certificate_key /etc/nginx/ssl/key.pem;
+	ssl_protocols TLSv1.2 TLSv1.3;
+	ssl_ciphers HIGH:!aNULL:!MD5;
 	#
 	# Note: You should disable gzip for SSL traffic.
 	# See: https://bugs.debian.org/773332
@@ -48,7 +48,7 @@ server {
 	# Add index.php to the list if you are using PHP
 	index index.php index.html index.htm index.nginx-debian.html;
 
-	server_name _;
+	server_name $URL;
 
 	location / {
 		# First attempt to serve request as file, then

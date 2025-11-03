@@ -3,11 +3,14 @@ FROM debian:bookworm
 RUN apt update -y
 RUN apt upgrade -y
 
-RUN apt install nginx procps -y
+RUN apt install nginx procps gettext-base -y
 
 COPY tools/default /etc/nginx/sites-available
 RUN mkdir -p /etc/nginx/ssl
 COPY tools/cert.pem /etc/nginx/ssl/cert.pem
 COPY tools/key.pem /etc/nginx/ssl/key.pem
 
-CMD ["nginx", "-g", "daemon off;"]
+COPY tools/script.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/script.sh
+
+CMD ["/usr/local/bin/script.sh"]
