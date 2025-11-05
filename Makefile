@@ -1,5 +1,7 @@
 PROJECT = inception
 DOCKER_FILE=./srcs/docker-compose.yml
+HOSTSFILE=/etc/hosts
+ENVFILE=./srcs/.env
 
 up:
 	@docker compose -p $(PROJECT) -f $(DOCKER_FILE) up -d $(TARGET)
@@ -28,3 +30,7 @@ rebuild:
 fclean:
 	@docker compose -p $(PROJECT) -f $(DOCKER_FILE) down --rmi all --volumes --remove-orphans
 	@rm -rf ./srcs/data
+
+hosts:
+	@. $(ENVFILE) && grep -qF -- "$$URL" $(HOSTSFILE) || echo "127.0.0.1	$$URL" >> $(HOSTSFILE)
+	@. $(ENVFILE) && grep -qF -- "$$BONUS_URL" $(HOSTSFILE) || echo "127.0.0.1	$$BONUS_URL" >> $(HOSTSFILE)
