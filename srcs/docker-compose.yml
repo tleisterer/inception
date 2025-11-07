@@ -11,7 +11,7 @@ services:
     networks: 
       - inception
     volumes:
-      - ./data/database:/var/lib/mysql:rw
+      - ${DATA}/database:/var/lib/mysql:rw
 
   nginx:
     container_name: nginx
@@ -25,7 +25,7 @@ services:
     networks:
       - inception
     volumes:
-      - ./data/web:/var/www/html:rw
+      - ${DATA}/web:/var/www/html:rw
     ports:
       - "443:443"
     depends_on:
@@ -50,7 +50,7 @@ services:
     networks:
       - inception
     volumes:
-      - ./data/web:/var/www/html:rw
+      - ${DATA}/web:/var/www/html:rw
     depends_on:
       mariadb:
         condition: service_healthy
@@ -79,7 +79,7 @@ services:
     networks:
       - inception
     volumes:
-      - ./data/web:/home/ftp:ro
+      - ${DATA}/web:/home/ftp:ro
     ports:
       - "21:21"
       - "21100-21110:21100-21110"
@@ -114,7 +114,7 @@ services:
     networks:
       - inception
     volumes:
-      - ./data/uptime-kuma-data:/uptime-kuma/data
+      - ${DATA}/kuma:/uptime-kuma/data
 
   website:
     container_name: website
