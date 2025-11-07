@@ -1,8 +1,8 @@
 PROJECT		= inception
-DOCKER_FILE	= ./srcs/docker-compose.yml
-HOSTSFILE	= /etc/hosts
-ENVFILE		= ./srcs/.env
-DATA		= ./srcs/data
+DOCKER_FILE	?= ./srcs/docker-compose.yml
+HOSTSFILE	?= /etc/hosts
+ENVFILE		?= /home/tleister/.env
+DATA		?= /home/tleister/data
 TARGET		?=
 
 DOCKER_COMPOSE=docker compose --env-file $(ENVFILE) -p $(PROJECT) -f $(DOCKER_FILE)
@@ -16,7 +16,8 @@ $(DATA):
 	@chmod -R 777 $(DATA)
 
 down:
-	@if [ -z "$(TARGET)" ]; then \
+	@export DATA=$$(cd $(DATA) 2> /dev/null && pwd); \
+	if [ -z "$(TARGET)" ]; then \
 		$(DOCKER_COMPOSE) down --rmi all --volumes --remove-orphans; \
 	else \
 		$(DOCKER_COMPOSE) stop $(TARGET); \
@@ -25,7 +26,8 @@ down:
 	fi
 
 list:
-	@$(DOCKER_COMPOSE) ps
+	@export DATA=$$(cd $(DATA) 2> /dev/null && pwd); \
+	$(DOCKER_COMPOSE) ps
 
 re: down up
 
@@ -33,13 +35,14 @@ reall: TARGET=
 reall: fclean up
 
 rebuild:
-	@export DATA=$$(cd $(DATA) && pwd); \
+	@export DATA=$$(cd $(DATA) 2> /dev/null && pwd); \
 	$(DOCKER_COMPOSE) build --no-cache $(TARGET); \
 	$(DOCKER_COMPOSE) up -d --force-recreate $(TARGET)
 
 fclean:
 	@rm -rf $(DATA)
-	@$(DOCKER_COMPOSE) down --rmi all --volumes --remove-orphans
+	@export DATA=$$(cd $(DATA) 2> /dev/null && pwd); \
+	$(DOCKER_COMPOSE) down --rmi all --volumes --remove-orphans
 
 hosts:
 	@. $(ENVFILE) && \

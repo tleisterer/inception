@@ -3,7 +3,7 @@ FROM debian:bookworm
 RUN apt update -y
 RUN apt upgrade -y
 
-RUN apt-get install vsftpd -y
+RUN apt-get install vsftpd netcat-openbsd -y
 RUN mkdir -p /var/run/vsftpd/empty
 
 COPY tools/vsftpd.conf /etc

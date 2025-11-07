@@ -1,13 +1,18 @@
 services:
   mariadb:
     container_name: mariadb
-    env_file: .env
+    environment:
+     - DB_NAME=${DB_NAME}
+     - DB_USER=${DB_USER}
+     - DB_PASSWORD=${DB_PASSWORD}
+     - DB_ROOTPASSWORD=${DB_ROOTPASSWORD}
     build: ./requirements/mariadb
     restart: always
     healthcheck:
-      test: [ "CMD-SHELL", "mysqladmin ping -u root > /dev/null 2>&1" ]
+      test: ["CMD-SHELL", "mysqladmin ping -u root -p${DB_ROOTPASSWORD} > /dev/null 2>&1"]
       interval: 5s
       retries: 10
+      start_period: 10s
     networks: 
       - inception
     volumes:
@@ -15,13 +20,17 @@ services:
 
   nginx:
     container_name: nginx
-    env_file: .env
+    environment:
+      - URL=${URL}
+      - BONUS_URL=${BONUS_URL}
     build: ./requirements/nginx
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "pgrep nginx || exit 1"]
-      interval: 5s
-      retries: 10
+      test: ["CMD-SHELL", "curl -f http://localhost/wp-login.php || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     networks:
       - inception
     volumes:
@@ -40,13 +49,25 @@ services:
 
   wordpress:
     container_name: wordpress
-    env_file: .env
+    environment:
+      - URL=${URL}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - WP_ADMIN=${WP_ADMIN}
+      - WP_ADMIN_PASSWORD=${WP_ADMIN_PASSWORD}
+      - WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
+      - WP_USER=${WP_USER}
+      - WP_USER_EMAIL=${WP_USER_EMAIL}
+      - WP_USER_PASSWORD=${WP_USER_PASSWORD}
     build: ./requirements/wordpress
     restart: always
     healthcheck:
-      test: [ "CMD-SHELL", "pgrep php-fpm || exit 1" ]
-      interval: 5s
-      retries: 10
+      test: ["CMD-SHELL", "cgi-fcgi -bind -connect localhost:9000 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     networks:
       - inception
     volumes:
@@ -57,7 +78,6 @@ services:
     
   redis:
     container_name: redis
-    env_file: .env
     build: ./requirements/bonus/redis
     restart: always
     healthcheck:
@@ -69,13 +89,16 @@ services:
 
   ftp:
     container_name: ftp
-    env_file: .env
+    environment:
+     - FTP_USER=${FTP_USER}
+     - FTP_PASSWORD=${FTP_PASSWORD}
     build: ./requirements/bonus/ftp
     restart: always
     healthcheck:
-      test: [ "CMD-SHELL", "pgrep vsftpd || exit 1" ]
-      interval: 5s
-      retries: 10
+      test: ["CMD-SHELL", "nc -z localhost 21 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - inception
     volumes:
@@ -89,13 +112,13 @@ services:
 
   adminer:
     container_name: adminer
-    env_file: .env
     build: ./requirements/bonus/adminer
     restart: always
     healthcheck:
-      test: [ "CMD-SHELL", "pgrep php || exit 1" ]
-      interval: 5s
-      retries: 10
+      test: ["CMD-SHELL", "curl -f http://localhost:8080 || exit 1"] 
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - inception
     depends_on:
@@ -104,13 +127,14 @@ services:
 
   uptime-kuma:
     container_name: uptime-kuma
-    env_file: .env
     build: ./requirements/bonus/uptime-kuma
     restart: always
     healthcheck:
       test: [ "CMD-SHELL", "curl -f http://localhost:3000/ || exit 1" ]
-      interval: 5s
-      retries: 10
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     networks:
       - inception
     volumes:
@@ -118,13 +142,14 @@ services:
 
   website:
     container_name: website
-    env_file: .env
     build: ./requirements/bonus/website
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "pgrep nginx || exit 1"]
-      interval: 5s
-      retries: 10
+      test: ["CMD-SHELL", "curl -f http://localhost:8080 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     networks:
       - inception
     volumes:
