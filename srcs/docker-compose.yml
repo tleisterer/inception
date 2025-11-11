@@ -145,7 +145,7 @@ services:
     build: ./requirements/bonus/website
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8080 || exit 1"]
+      test: ["CMD-SHELL", "curl -fk http://localhost:8080 || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -157,3 +157,20 @@ services:
 
 networks:
   inception:
+
+volumes:
+  database:
+    driver_opts:
+      type: 'none'
+      o: bind
+      device: ${DATA}/database
+  web:
+    driver_opts:
+      type: 'none'
+      o: bind
+      device: ${DATA}/web
+  kuma:
+    driver_opts:
+      type: 'none'
+      o: bind
+      device: ${DATA}/kuma

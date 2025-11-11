@@ -12,7 +12,7 @@ up: $(DATA)
 	$(DOCKER_COMPOSE) up -d $(TARGET)
 
 $(DATA): 
-	@mkdir -p $(DATA)/{web,database,kuma}
+	@mkdir -p $(DATA)/web $(DATA)/database $(DATA)/kuma
 	@chmod -R 777 $(DATA)
 
 down:
