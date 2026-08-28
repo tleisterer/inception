@@ -1,0 +1,4 @@
+.env*
+!.env.template
+!.env.example
+data
